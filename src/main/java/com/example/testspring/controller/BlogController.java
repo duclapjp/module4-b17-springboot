@@ -17,19 +17,20 @@ public class BlogController {
     private IBlogService blogService;
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<Blog>> showBlogList(){
+    public ResponseEntity<Iterable<Blog>> showBlogList() {
         return new ResponseEntity<>(blogService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Blog> createNewBlog(@RequestBody Blog blog){
+    public ResponseEntity<Blog> createNewBlog(@RequestBody Blog blog) {
         blogService.save(blog);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Blog> editBlog(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
-       Optional blog= blogService.findById(id);
-       blogService.save((Blog) blog.get());
-       return new ResponseEntity<>(HttpStatus.OK);
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Blog> deleteBlog(@PathVariable Long id) {
+        blogService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
